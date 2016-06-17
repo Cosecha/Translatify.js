@@ -9,20 +9,38 @@
         return new i18n.init(languages);
   };
 
-	var i18n_Class = '.i18nx';
+//*********************
+//
+//  Declare plugin variables
+//
+//*********************
+
+	// In the future, this will be the default selector
+	var i18n_Class = '.i18n';
+
+	// Where all the translation data files are stored
 	var i18n_directory = '../i18n/';
+
+	// Array of languages passed in to the plugin. Currently,
+	// this can be anything as long as it matches the data
+	// passed in.
 	var languageList = [];
+
+	// Initialize a data object where translation will get appended to.
 	var data = {}
 
 
 
 	i18n.prototype = {
-		apply: function (language) {
+
+		// This can be considered the 'default' method. Once the plugin has been
+		// initialized, this translates the language.
+
+		translate: function (language) {
 			if (!$) {
 				throw 'jQuery not loaded';
 				}
 
-			// var translation = this.data.language;
 			var libSelf = this;
 
 			$('.i18n').each(function() {
@@ -33,11 +51,15 @@
 					$(this).html(libSelf.data[language][toSay]);
 				});
 
-			this.applyImages(language);
+			this.translateImages(language);
 
 			return this;
 		},
-		applyImages: function(language) {
+
+		// This method just translates the images. Also called by default in
+		// the 'translate' method
+
+		translateImages: function(language) {
 			var libSelf = this;
 
 			$('.img-i18n').each(function() {
@@ -56,7 +78,7 @@
 		},
 		setLanguage: function (lang) {
 			this.language = lang;
-			this.apply(this.language);
+			this.translate(this.language);
 			return this;
 		}
 	};
